@@ -1,17 +1,17 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Register
+    Login
 {% endblock %}
 
 {% block main %}
 
     <div class="d-block m-auto w-100 p-2" style="max-width:500px;">
         <div class="mb-4">
-            <h2>Register</h2>
+            <h2>Login</h2>
         </div>
 
-        <form action="/register" method="post">
+        <form action="/login" method="post">
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="username" placeholder="Username" name="username" autocomplete="off" autofocus>
                 <label for="username">Username</label>
@@ -20,15 +20,11 @@
                 <input type="password" class="form-control" id="password" placeholder="Password" name="password" autocomplete="off">
                 <label for="password">Password</label>
             </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="confirm_password" placeholder="Re-type Password" name="confirm_password" autocomplete="off">
-                <label for="confirm_password">Confirm Password</label>
-            </div>
             <div class="mb-2">
-                <button type="submit" class="btn btn-primary d-block w-100">Register</button>
+                <button type="submit" class="btn btn-primary d-block w-100">Login</button>
             </div>
             <div class="mb-3">
-                <small>Already have an account? <a href="/login" title="Login">login</a></small>
+                <small>Don't have an account? <a href="/register" title="Register">register</a></small>
             </div>
         </form>
     </div>
