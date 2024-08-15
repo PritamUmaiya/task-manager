@@ -17,6 +17,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=7)  # Set session lifetime to 7 day
 Session(app)
 
+
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///tasks.db")
 
