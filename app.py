@@ -55,12 +55,12 @@ def delete_account():
 @login_required
 def add():
     """Add new task"""
-    data = request.get_json()
-    task = data.get('task')
-    label = data.get('label')
+    task = request.form.get('task')
+    label = request.form.get('label')
 
     if not task:
-        return jsonify({'message': 'Please enter your task'})
+        flash('Please enter your task', 'info')
+        return redirect(request.referrer)
 
     # If no label than add current date
     if not label:
@@ -69,7 +69,8 @@ def add():
     # Add task
     db.execute("INSERT INTO tasks(user_id, task, label) VALUES (?, ?, ?)", session['user_id'], task, label)
 
-    return jsonify({'message': 'success'})
+    flash("Task added!", "success")
+    return redirect(request.referrer)
 
 
 @app.route("/check", methods=["POST"])
@@ -97,6 +98,27 @@ def check():
     else:
         db.execute("UPDATE tasks SET done = 1 WHERE id = ?", task_id)
         return jsonify({'message': 'checked'})
+
+
+@app.route("/remove", methods=["POST"])
+@login_required
+def remove():
+    """Delete task"""
+    data = request.get_json()
+    task_id = data.get('task_id')
+
+    if not task_id:
+        return jsonify({'message': 'Task id not found!'})
+    
+    # Check if task exists and belongs to user
+    tasks = db.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", task_id, session['user_id'])
+
+    if len(tasks) == 0:
+        return jsonify({'message': 'Task not found!'})
+
+    # Remove task
+    db.execute("DELETE FROM tasks WHERE id = ?", task_id)
+    return jsonify({'message': 'removed'})
 
 
 ''' User Authentication '''

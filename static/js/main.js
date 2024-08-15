@@ -26,17 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Add task form
-    let addTaskForm = document.querySelector('#addTaskForm');
-    if (addTaskForm) {
-        addTaskForm.addEventListener('submit', function(e) {
-            // Prevent the form from submission
-            e.preventDefault();
-            // Call add task function
-            add_task();
-        });
-    }
-
 });
 
 // Function to flash message
@@ -51,31 +40,6 @@ function flash(message, type) {
     document.body.appendChild(flash);
 }
 
-// Function to add Task
-function add_task() {
-    let task = document.querySelector('#task').value;
-    let label = document.querySelector('#label').value;
-
-    fetch('/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ task: task, label: label })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data['message'] === 'success') {
-            flash('Task added!', 'success');
-            create_task(task, label);
-        } else {
-            flash(data['message'], 'info');
-        }
-    })
-    .catch(error => {
-        console.log('Error:', error);
-    });
-}
 
 // Function to check Task
 function check_task(button, task_id) {
@@ -99,6 +63,29 @@ function check_task(button, task_id) {
             button.classList.add('btn-outline-primary');
             text.classList.remove('text-decoration-line-through');
         }
+        else {
+            flash(data['message'], 'info');
+        }
+    })
+    .catch(error => {
+        console.log('Error:', error);
+    });
+}
+
+// Function to romove task
+function remove_task(task_id) {
+    fetch('/remove', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ task_id: task_id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data['message'] === 'removed') {
+            document.querySelector(`#task-${task_id}`).classList.add('d-none');
+        } 
         else {
             flash(data['message'], 'info');
         }
