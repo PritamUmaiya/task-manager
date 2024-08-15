@@ -72,6 +72,33 @@ def add():
     return jsonify({'message': 'success'})
 
 
+@app.route("/", methods=["POST"])
+@login_required
+def check():
+    """Mark check or uncheck"""
+    data = request.get_json()
+    task_id = data.get('task_id')
+
+    if not task_id:
+        return jsonify({'message': 'Task id not found!'})
+    
+    # Check if task exists and belongs to user
+    tasks = db.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", task_id, session['user_id'])
+
+    if len(tasks) == 0:
+        return jsonify({'message': 'Task not found!'})
+    
+    # Check if task is already done
+    if tasks[0]['done'] == '1':
+        # Update to not done
+        db.execute("UPDATE tasks SET done = 0 WHERE id = ?", task_id)
+        return jsonify({'message': 'unchecked'})
+
+    else:
+        db.execute("UPDATE tasks SET done = 1 WHERE id = ?", task_id)
+        return jsonify({'message': 'checked'})
+
+
 ''' User Authentication '''
 
 @app.route("/register", methods=["GET", "POST"])
