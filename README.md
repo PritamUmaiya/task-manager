@@ -15,9 +15,7 @@ Task Manager is a web application that allows users to manage their tasks. It pr
 Upon visiting the site, users can quickly register by creating an account with a unique username and password. Once registered, users can log in to access their personalized dashboard, where they can add new tasks, edit existing ones, or mark tasks as completed. Each task is displayed in a clean and organized manner, making it simple to track progress and prioritize activities. 
 
 #### Video Demo
-Watch the video demo of Task Manager [here](https://www.youtube.com/watch?).
-
-[![Task Manager Demo](https://img.youtube.com/vi/XLWs02N801M/0.jpg)](https://www.youtube.com/watch?)
+Watch the video demo of Task Manager [here](https://youtu.be/F1xBeicW2gM).
 
 In this demo video, you'll see an overview of the Task Manager's key features, including how to register an account, add tasks, edit or delete them, and mark tasks as completed. The video provides a step-by-step guide on how to use the application, showcasing its user-friendly interface and the ease with which tasks can be managed. This visual walkthrough will give you a clear understanding of how the Task Manager works and how it can be integrated into your daily routine.
 
