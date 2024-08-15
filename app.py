@@ -72,7 +72,7 @@ def add():
     return jsonify({'message': 'success'})
 
 
-@app.route("/", methods=["POST"])
+@app.route("/check", methods=["POST"])
 @login_required
 def check():
     """Mark check or uncheck"""
@@ -89,7 +89,7 @@ def check():
         return jsonify({'message': 'Task not found!'})
     
     # Check if task is already done
-    if tasks[0]['done'] == '1':
+    if tasks[0]['done'] == 1:
         # Update to not done
         db.execute("UPDATE tasks SET done = 0 WHERE id = ?", task_id)
         return jsonify({'message': 'unchecked'})

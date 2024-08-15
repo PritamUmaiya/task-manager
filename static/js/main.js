@@ -79,7 +79,7 @@ function add_task() {
 
 // Function to check Task
 function check_task(button, task_id) {
-
+    let text = document.querySelector(`#task-text-${task_id}`);
     fetch('/check', {
         method: 'POST',
         headers: {
@@ -92,10 +92,12 @@ function check_task(button, task_id) {
         if (data['message'] === 'checked') {
             button.classList.remove('btn-outline-primary');
             button.classList.add('btn-primary');
+            text.classList.add('text-decoration-line-through');
         } 
         else if (data['message'] === 'unchecked') {
             button.classList.remove('btn-primary');
             button.classList.add('btn-outline-primary');
+            text.classList.remove('text-decoration-line-through');
         }
         else {
             flash(data['message'], 'info');

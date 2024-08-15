@@ -26,7 +26,7 @@
                         </button>
                         <!--Task Text-->
                         <div class="d-flex flex-column">
-                            <span>{{ task.task }}</span>
+                            <span class="{% if task.done == 1 %}text-decoration-line-through{% endif %}" id="task-text-{{ task.id }}">{{ task.task }}</span>
                             <small class="text-body-secondary">{{ task.label }}</small>
                         </div>
                     </div>
