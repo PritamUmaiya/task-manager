@@ -1,6 +1,6 @@
 from cs50 import SQL
 from datetime import datetime, timedelta
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -55,12 +55,12 @@ def delete_account():
 @login_required
 def add():
     """Add new task"""
-    task = request.form['task']
-    label = request.form['label']
+    data = request.get_json()
+    task = data.get('task')
+    label = data.get('label')
 
     if not task:
-        flash("Please enter your task", "info")
-        return redirect(request.referrer)
+        return jsonify({'message': 'Please enter your task'})
 
     # If no label than add current date
     if not label:
@@ -69,8 +69,7 @@ def add():
     # Add task
     db.execute("INSERT INTO tasks(user_id, task, label) VALUES (?, ?, ?)", session['user_id'], task, label)
 
-    flash("Task added!", "success")
-    return redirect(request.referrer)
+    return jsonify({'message': 'success'})
 
 
 ''' User Authentication '''

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Theme toggler function
     // Function to toggle the theme
     let themeToggler = document.querySelector('#themeToggler');
     let currentTheme = localStorage.getItem('theme');
@@ -26,4 +25,56 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('theme', 'light');
         }
     });
+
+    // Add task form
+    let addTaskForm = document.querySelector('#addTaskForm');
+    if (addTaskForm) {
+        addTaskForm.addEventListener('submit', async function(e) {
+            // Prevent the form from submission
+            e.preventDefault();
+            // Call add task function
+            add_task();
+        });
+    }
 });
+
+// Function to flash message
+function flash(message, type) {
+    let flash = document.createElement('div');
+    flash.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert" style="position:fixed; top:0; left:0;right:0;z-index:100000;border-radius:0;">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+    document.body.appendChild(flash);
+}
+
+// Function to add task
+function add_task() {
+    let task = document.querySelector('#task');
+    let label = document.querySelector('#label');
+
+    fetch('/add', {
+        method: 'POST',
+        header: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ task: task, label: label })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data['message'] == 'success') {
+            // Create task
+            flash('Task added!', 'success');
+            create_task(task, label);
+        }
+        else {
+            // Flash message
+            flash(data['message'], 'info');
+        }
+    })
+    .catch(error => {
+        console.log('Error', error);
+    });
+}
