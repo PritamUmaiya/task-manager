@@ -32,7 +32,9 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    # Send users task
+    tasks = db.execute("SELECT * FROM tasks WHERE user_id = ?", session['user_id'])
+    return render_template("index.html", tasks=tasks)
 
 
 @app.route("/delete_account")
