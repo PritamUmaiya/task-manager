@@ -1,5 +1,5 @@
 from cs50 import SQL
-from datetime import timedelta
+from datetime import datetime, timedelta
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -45,6 +45,30 @@ def delete_account():
 
     flash("Your account has been deleted!", "danger")
     return redirect("/login")
+
+
+''' Task Actions '''
+
+@app.route("/add", methods=["POST"])
+@login_required
+def add():
+    """Add new task"""
+    task = request.form['task']
+    label = request.form['label']
+
+    if not task:
+        flash("Please enter your task", "info")
+        return redirect(request.referrer)
+
+    # If no label than add current date
+    if not label:
+        label = datetime.now().strftime("%b %d, %Y") # Format: Aug 15, 2024
+
+    # Add task
+    db.execute("INSERT INTO tasks(user_id, task, label) VALUES (?, ?, ?)", session['user_id'], task, label)
+
+    flash("Task added!", "success")
+    return redirect(request.referrer)
 
 
 ''' User Authentication '''
