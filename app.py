@@ -35,6 +35,17 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/delete_account")
+@login_required
+def delete_account():
+    """Delete users account"""
+    db.execute("DELETE FROM users WHERE id = ?", session['user_id'])
+
+    session.clear()
+
+    flash("Your account has been deleted!", "danger")
+    return redirect("/login")
+
 
 ''' User Authentication '''
 
@@ -104,7 +115,7 @@ def login():
 
         # Add the user to session
         session.clear()
-        session['user_id'] = users[0][id]
+        session['user_id'] = users[0]['id']
 
         return redirect("/")
 
