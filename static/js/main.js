@@ -50,31 +50,28 @@ function flash(message, type) {
     document.body.appendChild(flash);
 }
 
-// Function to add task
+// Function to add Task
 function add_task() {
-    let task = document.querySelector('#task');
-    let label = document.querySelector('#label');
+    let task = document.querySelector('#task').value;
+    let label = document.querySelector('#label').value;
 
     fetch('/add', {
         method: 'POST',
-        header: {
+        headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ task: task, label: label })
     })
     .then(response => response.json())
     .then(data => {
-        if (data['message'] == 'success') {
-            // Create task
+        if (data['message'] === 'success') {
             flash('Task added!', 'success');
             create_task(task, label);
-        }
-        else {
-            // Flash message
+        } else {
             flash(data['message'], 'info');
         }
     })
     .catch(error => {
-        console.log('Error', error);
+        console.log('Error:', error);
     });
 }
