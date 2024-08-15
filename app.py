@@ -18,7 +18,7 @@ app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=7)  # Set session life
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///users.db")
+db = SQL("sqlite:///tasks.db")
 
 @app.after_request
 def after_request(response):
@@ -33,3 +33,40 @@ def after_request(response):
 @login_required
 def index():
     return render_template("index.html")
+
+
+
+''' User Authentication '''
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    """Register the user"""
+
+    if request.method == "POST":
+        ...
+
+    else:
+        return render_template("register.html")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """Login the user"""
+
+    if request.method == "POST":
+        ...
+    
+    else:
+        return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    """Logout the user"""
+    session.clear()
+    flash("You have been logged out!", "info")
+    return redirect("/login")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

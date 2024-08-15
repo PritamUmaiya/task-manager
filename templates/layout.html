@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/static/css/styles.css">
     <script src="/static/js/main.js"></script>
     <link rel="icon" href="/static/image/logo.png">
-    <title>My Tasks: {% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body data-bs-theme="dark">
     <!--HEADER: Navigation-->
@@ -34,7 +34,7 @@
                 <ul class="navbar-nav ms-auto">
                     {% if session['user_id'] %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/">Your tasks</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/delete_account">Delete account</a>
